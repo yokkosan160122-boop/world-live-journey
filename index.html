@@ -1,83 +1,50 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#07172b">
   <title>地球の窓 | World Live Journey</title>
-
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       background: #07172b;
-      color: #ffffff;
-      font-family: -apple-system, BlinkMacSystemFont,
-        "Helvetica Neue", sans-serif;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
     }
-
-    header {
-      padding: 25px 20px;
-      text-align: center;
+    header { padding: 25px 20px 18px; text-align: center; }
+    h1 { margin: 0; font-size: 28px; }
+    .subtitle { color: #a8bfd7; font-size: 13px; margin-top: 8px; }
+    main { max-width: 650px; margin: auto; padding: 12px 18px 40px; }
+    .tabs { display: flex; gap: 10px; margin-bottom: 18px; }
+    .tab {
+      flex: 1;
+      padding: 13px 8px;
+      border: 1px solid #35536f;
+      border-radius: 12px;
+      background: #142941;
+      color: #c8d8e7;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
     }
-
-    h1 {
-      margin: 0;
-      font-size: 28px;
+    .tab.active {
+      background: #38b6a4;
+      color: #06232c;
+      border-color: #38b6a4;
     }
-
-    .subtitle {
-      color: #a8bfd7;
-      font-size: 13px;
-      margin-top: 8px;
-    }
-
-    main {
-      max-width: 650px;
-      margin: auto;
-      padding: 12px 18px 40px;
-    }
-
     .card {
       background: #142941;
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 8px 25px #0005;
     }
-
-    .video {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #000;
-    }
-
-    .video iframe {
-      display: block;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    .content {
-      padding: 22px;
-    }
-
-    h2 {
-      margin: 0 0 10px;
-      font-size: 21px;
-    }
-
-    p {
-      color: #b8c9d9;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
+    .video { width: 100%; aspect-ratio: 16 / 9; background: #000; }
+    .video iframe { display: block; width: 100%; height: 100%; border: 0; }
+    .content { padding: 22px; }
+    h2 { margin: 0 0 10px; font-size: 21px; }
+    p { color: #b8c9d9; font-size: 14px; line-height: 1.6; }
     .button {
       display: block;
       margin-top: 22px;
@@ -90,7 +57,6 @@
       font-size: 17px;
       font-weight: bold;
     }
-
     footer {
       text-align: center;
       padding: 35px 15px;
@@ -99,7 +65,6 @@
     }
   </style>
 </head>
-
 <body>
   <header>
     <h1>🌍 地球の窓</h1>
@@ -107,13 +72,21 @@
   </header>
 
   <main>
-    <div class="card">
+    <div class="tabs">
+      <button class="tab active" id="auroraTab" onclick="showCamera('aurora')">
+        🌌 オーロラ
+      </button>
+      <button class="tab" id="spaceTab" onclick="showCamera('space')">
+        🚀 宇宙から地球
+      </button>
+    </div>
 
-      <!-- YouTube公式埋め込みプレーヤー -->
+    <div class="card">
       <div class="video">
         <iframe
+          id="livePlayer"
           src="https://www.youtube.com/embed/O52zDyxg5QI"
-          title="Fairbanks Aurora Live Camera"
+          title="Live camera"
           referrerpolicy="strict-origin-when-cross-origin"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen>
@@ -121,24 +94,55 @@
       </div>
 
       <div class="content">
-        <h2>🌌 オーロラ｜アラスカ</h2>
-
-        <p>世界の今を見に行こう。</p>
-        <p>静かな夜空に、オーロラが現れるかも。</p>
+        <h2 id="cameraTitle">🌌 オーロラ｜アラスカ</h2>
+        <p id="cameraDescription">世界の今を見に行こう。静かな夜空に、オーロラが現れるかも。</p>
+        <p id="cameraCredit">配信：Explore.org / ExploreZenDen</p>
 
         <a class="button"
+           id="youtubeLink"
            href="https://www.youtube.com/watch?v=O52zDyxg5QI"
            target="_blank"
            rel="noopener noreferrer">
           ▶ YouTubeでライブを見る
         </a>
       </div>
-
     </div>
   </main>
 
-  <footer>
-    世界中の「今」を旅しよう！ 🌏
-  </footer>
+  <footer>世界中の「今」を旅しよう！ 🌏</footer>
+
+  <script>
+    const cameras = {
+      aurora: {
+        id: "O52zDyxg5QI",
+        title: "🌌 オーロラ｜アラスカ",
+        description: "世界の今を見に行こう。静かな夜空に、オーロラが現れるかも。",
+        credit: "配信：Explore.org / ExploreZenDen"
+      },
+      space: {
+        id: "tj4knR4r1UU",
+        title: "🚀 宇宙から見る地球｜ISS",
+        description: "地球の青い海や雲を、宇宙から眺めよう。ISS関連のライブ配信を楽しめます。",
+        credit: "配信：afarTV（NASA公式チャンネルではありません。映像が常にリアルタイムとは限りません）"
+      }
+    };
+
+    function showCamera(name) {
+      const camera = cameras[name];
+      if (!camera) return;
+
+      document.getElementById("livePlayer").src =
+        "https://www.youtube.com/embed/" + camera.id;
+
+      document.getElementById("cameraTitle").textContent = camera.title;
+      document.getElementById("cameraDescription").textContent = camera.description;
+      document.getElementById("cameraCredit").textContent = camera.credit;
+      document.getElementById("youtubeLink").href =
+        "https://www.youtube.com/watch?v=" + camera.id;
+
+      document.getElementById("auroraTab").classList.toggle("active", name === "aurora");
+      document.getElementById("spaceTab").classList.toggle("active", name === "space");
+    }
+  </script>
 </body>
 </html>
