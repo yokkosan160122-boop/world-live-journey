@@ -3,11 +3,16 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#07172b">
   <title>地球の窓 | World Live Journey</title>
+
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       background: #07172b;
@@ -15,40 +20,64 @@
       font-family: -apple-system, BlinkMacSystemFont,
         "Helvetica Neue", sans-serif;
     }
+
     header {
       padding: 25px 20px;
       text-align: center;
     }
-    h1 { margin: 0; font-size: 28px; }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
     .subtitle {
       color: #a8bfd7;
       font-size: 13px;
       margin-top: 8px;
     }
+
     main {
       max-width: 650px;
       margin: auto;
       padding: 12px 18px 40px;
     }
+
     .card {
       background: #142941;
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 8px 25px #0005;
     }
-    .sky {
-      height: 210px;
-      background: linear-gradient(
-        160deg, #102a49, #145b57, #08192d
-      );
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 76px;
+
+    .video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
     }
-    .content { padding: 22px; }
-    h2 { margin: 0 0 10px; font-size: 21px; }
-    p { color: #b8c9d9; font-size: 14px; }
+
+    .video iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .content {
+      padding: 22px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 21px;
+    }
+
+    p {
+      color: #b8c9d9;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
     .button {
       display: block;
       margin-top: 22px;
@@ -61,6 +90,7 @@
       font-size: 17px;
       font-weight: bold;
     }
+
     footer {
       text-align: center;
       padding: 35px 15px;
@@ -69,6 +99,7 @@
     }
   </style>
 </head>
+
 <body>
   <header>
     <h1>🌍 地球の窓</h1>
@@ -77,18 +108,32 @@
 
   <main>
     <div class="card">
-      <div class="sky">🌌</div>
+
+      <!-- YouTube公式埋め込みプレーヤー -->
+      <div class="video">
+        <iframe
+          src="https://www.youtube.com/embed/O52zDyxg5QI"
+          title="Fairbanks Aurora Live Camera"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+      </div>
+
       <div class="content">
         <h2>🌌 オーロラ｜アラスカ</h2>
+
         <p>世界の今を見に行こう。</p>
         <p>静かな夜空に、オーロラが現れるかも。</p>
+
         <a class="button"
-           href="https://explore.org/livecams/currently-live/aurora-cam"
+           href="https://www.youtube.com/watch?v=O52zDyxg5QI"
            target="_blank"
            rel="noopener noreferrer">
-          ▶ ライブカメラを開く
+          ▶ YouTubeでライブを見る
         </a>
       </div>
+
     </div>
   </main>
 
