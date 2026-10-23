@@ -6,13 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#07172b">
   <title>地球の窓 | World Live Journey</title>
+
   <style>
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
       background: #07172b;
-      color: #ffffff;
+      color: #fff;
       font-family: -apple-system, BlinkMacSystemFont,
         "Helvetica Neue", sans-serif;
     }
@@ -31,37 +32,45 @@
     }
 
     main {
-      max-width: 650px;
+      max-width: 700px;
       margin: auto;
       padding: 12px 18px 40px;
     }
 
-    .tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 18px;
+    .category {
+      margin: 22px 0 10px;
+      color: #a8bfd7;
+      font-size: 14px;
+      font-weight: bold;
     }
 
-    .tab {
-      flex: 1 1 145px;
-      padding: 13px 8px;
+    .channel-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .channel {
       border: 1px solid #35536f;
       border-radius: 12px;
       background: #142941;
-      color: #c8d8e7;
+      color: #e0ecf5;
+      padding: 14px 10px;
+      text-align: left;
       font-size: 14px;
-      font-weight: bold;
       cursor: pointer;
+      line-height: 1.5;
     }
 
-    .tab.active {
+    .channel.active {
       background: #38b6a4;
       color: #06232c;
       border-color: #38b6a4;
+      font-weight: bold;
     }
 
     .card {
+      margin-top: 26px;
       background: #142941;
       border-radius: 20px;
       overflow: hidden;
@@ -81,7 +90,7 @@
       border: 0;
     }
 
-    .aquarium-preview {
+    .preview {
       display: none;
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -91,24 +100,18 @@
       flex-direction: column;
       gap: 12px;
       text-align: center;
+      padding: 20px;
     }
 
-    .aquarium-preview .emoji {
-      font-size: 64px;
-    }
-
-    .aquarium-preview .message {
-      color: #ffffff;
+    .preview .emoji { font-size: 60px; }
+    .preview .message {
       font-size: 16px;
       font-weight: bold;
     }
 
     .content { padding: 22px; }
 
-    h2 {
-      margin: 0 0 10px;
-      font-size: 21px;
-    }
+    h2 { margin: 0 0 10px; font-size: 21px; }
 
     p {
       color: #b8c9d9;
@@ -145,24 +148,53 @@
   </header>
 
   <main>
-    <div class="tabs">
-      <button class="tab active" id="auroraTab"
+
+    <div class="category">🌌 空と宇宙</div>
+    <div class="channel-list">
+      <button class="channel active" data-camera="aurora"
               onclick="showCamera('aurora')">
-        🌌 オーロラ
+        CH 01｜🌌 オーロラ
       </button>
-
-      <button class="tab" id="spaceTab"
+      <button class="channel" data-camera="space"
               onclick="showCamera('space')">
-        🚀 宇宙から地球
-      </button>
-
-      <button class="tab" id="aquariumTab"
-              onclick="showCamera('aquarium')">
-        🐋 水族館
+        CH 02｜🚀 宇宙から地球
       </button>
     </div>
 
-    <div class="card">
+    <div class="category">🐠 水中の世界</div>
+    <div class="channel-list">
+      <button class="channel" data-camera="aquarium"
+              onclick="showCamera('aquarium')">
+        CH 03｜🐋 ジョージア水族館
+      </button>
+    </div>
+
+    <div class="category">🐘 野生動物・サファリ</div>
+    <div class="channel-list">
+      <button class="channel" data-camera="kenya"
+              onclick="showCamera('kenya')">
+        CH 04｜🐒 ケニア水飲み場
+      </button>
+      <button class="channel" data-camera="africam"
+              onclick="showCamera('africam')">
+        CH 05｜🦁 Africam
+      </button>
+    </div>
+
+    <div class="category">🦍 世界の動物園</div>
+    <div class="channel-list">
+      <button class="channel" data-camera="sandiego"
+              onclick="showCamera('sandiego')">
+        CH 06｜🐘 サンディエゴ
+      </button>
+      <button class="channel" data-camera="houston"
+              onclick="showCamera('houston')">
+        CH 07｜🦍 ヒューストン
+      </button>
+    </div>
+
+    <div class="card" id="playerCard">
+
       <div class="video" id="videoContainer">
         <iframe
           id="livePlayer"
@@ -174,18 +206,18 @@
         </iframe>
       </div>
 
-      <div class="aquarium-preview" id="aquariumPreview">
-        <div class="emoji">🐋 🐠 🦈</div>
-        <div class="message">アメリカの巨大水槽へ出発！</div>
+      <div class="preview" id="preview">
+        <div class="emoji" id="previewEmoji">🌍</div>
+        <div class="message" id="previewMessage">
+          世界のライブカメラへ出発！
+        </div>
       </div>
 
       <div class="content">
         <h2 id="cameraTitle">🌌 オーロラ｜アラスカ</h2>
-
         <p id="cameraDescription">
-          世界の今を見に行こう。静かな夜空に、オーロラが現れるかも。
+          静かな夜空に、オーロラが現れるかも。
         </p>
-
         <p id="cameraCredit">
           配信：Explore.org / ExploreZenDen
         </p>
@@ -199,18 +231,17 @@
         </a>
       </div>
     </div>
+
   </main>
 
-  <footer>
-    世界中の「今」を旅しよう！ 🌏
-  </footer>
+  <footer>世界中の「今」を旅しよう！ 🌏</footer>
 
   <script>
     const cameras = {
       aurora: {
         id: "O52zDyxg5QI",
         title: "🌌 オーロラ｜アラスカ",
-        description: "世界の今を見に行こう。静かな夜空に、オーロラが現れるかも。",
+        description: "静かな夜空に、オーロラが現れるかも。",
         credit: "配信：Explore.org / ExploreZenDen",
         url: "https://www.youtube.com/watch?v=O52zDyxg5QI",
         button: "▶ YouTubeでライブを見る",
@@ -220,8 +251,8 @@
       space: {
         id: "tj4knR4r1UU",
         title: "🚀 宇宙から見る地球｜ISS",
-        description: "地球の青い海や雲を、宇宙から眺めよう。ISS関連のライブ配信を楽しめます。",
-        credit: "配信：afarTV（NASA公式チャンネルではありません。映像が常にリアルタイムとは限りません）",
+        description: "地球の青い海や雲を、宇宙から眺めよう。",
+        credit: "配信：afarTV（NASA公式ではありません。映像が常にリアルタイムとは限りません）",
         url: "https://www.youtube.com/watch?v=tj4knR4r1UU",
         button: "▶ YouTubeでライブを見る",
         type: "youtube"
@@ -229,10 +260,51 @@
 
       aquarium: {
         title: "🐋 ジョージア水族館｜巨大水槽",
-        description: "アメリカ・アトランタの巨大水槽。ジンベエザメやエイなどが泳ぐ世界を楽しもう！",
-        credit: "配信：Georgia Aquarium（公式ライブカメラ）",
+        description: "アメリカ・アトランタの巨大水槽。ジンベエザメやエイたちの世界へ！",
+        credit: "配信：Georgia Aquarium",
         url: "https://www.georgiaaquarium.org/webcam/ocean-voyager/",
-        button: "🐠 水族館のライブ映像を見る",
+        button: "🐠 水族館のライブを見る",
+        emoji: "🐋🐠",
+        type: "external"
+      },
+
+      kenya: {
+        title: "🐒 ケニア｜野生動物の水飲み場",
+        description: "アフリカの野生動物たちが集まる水飲み場。今日は誰が現れるかな？",
+        credit: "配信：Explore.org",
+        url: "https://explore.org/livecams/african-wildlife/african-watering-hole-animal-camera",
+        button: "🐘 サファリのライブを見る",
+        emoji: "🐒🐘",
+        type: "external"
+      },
+
+      africam: {
+        title: "🦁 Africam｜アフリカの野生動物",
+        description: "アフリカ各地の野生動物を観察しよう。",
+        credit: "配信：Africam",
+        url: "https://www.youtube.com/watch?v=PsJplltf9n8",
+        button: "🦁 Africamのライブを見る",
+        emoji: "🦁🐘",
+        type: "external"
+      },
+
+      sandiego: {
+        title: "🐘 サンディエゴ・サファリパーク",
+        description: "アメリカのサファリパークでゾウなどの動物たちを観察しよう。",
+        credit: "配信：San Diego Zoo Wildlife Alliance",
+        url: "https://sdzsafaripark.org/live-cameras",
+        button: "🐘 サファリパークのライブを見る",
+        emoji: "🐘🦒",
+        type: "external"
+      },
+
+      houston: {
+        title: "🦍 ヒューストン動物園",
+        description: "ゴリラやカワウソなど、動物たちの様子を見に行こう。",
+        credit: "配信：Houston Zoo",
+        url: "https://www.houstonzoo.org/explore/webcams/",
+        button: "🦍 動物園のライブを見る",
+        emoji: "🦍🦦",
         type: "external"
       }
     };
@@ -243,7 +315,7 @@
 
       const video = document.getElementById("videoContainer");
       const player = document.getElementById("livePlayer");
-      const preview = document.getElementById("aquariumPreview");
+      const preview = document.getElementById("preview");
 
       if (camera.type === "youtube") {
         video.style.display = "block";
@@ -253,19 +325,34 @@
         player.src = "about:blank";
         video.style.display = "none";
         preview.style.display = "flex";
+
+        document.getElementById("previewEmoji").textContent =
+          camera.emoji || "🌍";
+
+        document.getElementById("previewMessage").textContent =
+          "ライブカメラを見に行こう！";
       }
 
       document.getElementById("cameraTitle").textContent = camera.title;
-      document.getElementById("cameraDescription").textContent = camera.description;
+      document.getElementById("cameraDescription").textContent =
+        camera.description;
       document.getElementById("cameraCredit").textContent = camera.credit;
 
       const link = document.getElementById("cameraLink");
       link.href = camera.url;
       link.textContent = camera.button;
 
-      document.getElementById("auroraTab").classList.toggle("active", name === "aurora");
-      document.getElementById("spaceTab").classList.toggle("active", name === "space");
-      document.getElementById("aquariumTab").classList.toggle("active", name === "aquarium");
+      document.querySelectorAll(".channel").forEach(button => {
+        button.classList.toggle(
+          "active",
+          button.dataset.camera === name
+        );
+      });
+
+      document.getElementById("playerCard").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
     }
   </script>
 </body>
